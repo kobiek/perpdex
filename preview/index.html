@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ink Perp DEX - Extended Style</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00D4AA;
+            --primary-hover: #00B894;
+            --primary-active: #00A085;
+            --secondary: #1A1A1A;
+            --secondary-hover: #2A2A2A;
+            --accent-buy: #00D4AA;
+            --accent-sell: #FF6B6B;
+            --bg-primary: #0A0A0A;
+            --bg-secondary: #111111;
+            --bg-tertiary: #1A1A1A;
+            --bg-card: #0F0F0F;
+            --text-primary: #FFFFFF;
+            --text-secondary: #B0B0B0;
+            --text-muted: #808080;
+            --border-primary: #2A2A2A;
+            --border-secondary: #333333;
+            --border-focus: #00D4AA;
+            --success: #00D4AA;
+            --warning: #FFA500;
+            --error: #FF4757;
+            --gradient-primary: linear-gradient(135deg, #00D4AA 0%, #00B894 100%);
+            --gradient-secondary: linear-gradient(135deg, #1A1A1A 0%, #2A2A2A 100%);
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        .app {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        .header {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-primary);
+            padding: 0 24px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--gradient-primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .nav {
+            display: flex;
+            gap: 24px;
+        }
+
+        .nav-item {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            color: var(--text-primary);
+            background: var(--bg-tertiary);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .wallet-btn {
+            background: var(--gradient-primary);
+            color: var(--text-primary);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .wallet-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .wallet-btn.connected {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        /* Main Layout */
+        .main-container {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 0;
+            min-height: calc(100vh - 64px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-primary);
+            padding: 24px 0;
+            overflow-y: auto;
+        }
+
+        .sidebar-section {
+            margin-bottom: 32px;
+            padding: 0 24px;
+        }
+
+        .sidebar-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .market-list {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .market-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
+
+        .market-item:hover {
+            background: var(--bg-tertiary);
+        }
+
+        .market-item.active {
+            background: var(--bg-card);
+            border-color: var(--primary);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .market-symbol {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .market-price {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .market-change {
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .market-change.positive {
+            color: var(--success);
+        }
+
+        .market-change.negative {
+            color: var(--error);
+        }
+
+        .balance-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-primary);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .balance-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .balance-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .balance-label {
+            color: var(--text-secondary);
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .balance-value {
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+        }
+
+        .balance-value.large {
+            font-size: 18px;
+            color: var(--text-primary);
+        }
+
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-rows: 1fr 1fr;
+            gap: 0;
+            background: var(--bg-primary);
+        }
+
+        .top-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            border-bottom: 1px solid var(--border-primary);
+        }
+
+        .bottom-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+        }
+
+        /* Order Book */
+        .order-book {
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-primary);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .order-book-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .order-book-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .order-book-market {
+            background: var(--bg-card);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .order-book-content {
+            flex: 1;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+        }
+
+        .order-book-header-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-primary);
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .order-book-level {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            padding: 6px 0;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-radius: 4px;
+            margin: 1px 0;
+        }
+
+        .order-book-level:hover {
+            background: var(--bg-tertiary);
+        }
+
+        .order-book-level.ask .price {
+            color: var(--accent-sell);
+            font-weight: 500;
+        }
+
+        .order-book-level.bid .price {
+            color: var(--accent-buy);
+            font-weight: 500;
+        }
+
+        .order-book-level .size {
+            color: var(--text-secondary);
+        }
+
+        .spread {
+            text-align: center;
+            padding: 12px 0;
+            border-top: 1px solid var(--border-primary);
+            border-bottom: 1px solid var(--border-primary);
+            font-size: 11px;
+            color: var(--text-muted);
+            font-weight: 500;
+            margin: 8px 0;
+        }
+
+        /* Chart */
+        .chart-container {
+            background: var(--bg-secondary);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .chart-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .chart-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .chart-btn {
+            padding: 6px 12px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-primary);
+            border-radius: 6px;
+            color: var(--text-secondary);
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .chart-btn:hover,
+        .chart-btn.active {
+            background: var(--primary);
+            color: var(--text-primary);
+            border-color: var(--primary);
+        }
+
+        .chart-placeholder {
+            flex: 1;
+            background: var(--bg-card);
+            border: 1px solid var(--border-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 16px;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chart-placeholder::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(0, 212, 170, 0.1) 50%, transparent 70%);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Order Panel */
+        .order-panel {
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-primary);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .order-panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .order-panel-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .order-tabs {
+            display: flex;
+            background: var(--bg-card);
+            border-radius: 8px;
+            padding: 4px;
+            margin-bottom: 20px;
+        }
+
+        .order-tab {
+            flex: 1;
+            padding: 10px 16px;
+            background: transparent;
+            border: none;
+            border-radius: 6px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .order-tab.active {
+            background: var(--gradient-primary);
+            color: var(--text-primary);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .order-tab:hover:not(.active) {
+            color: var(--text-primary);
+        }
+
+        .order-type-buttons {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 20px;
+        }
+
+        .order-type-btn {
+            flex: 1;
+            padding: 8px 12px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-primary);
+            border-radius: 6px;
+            color: var(--text-secondary);
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .order-type-btn.active {
+            background: var(--primary);
+            color: var(--text-primary);
+            border-color: var(--primary);
+        }
+
+        .order-type-btn:hover:not(.active) {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .leverage-section {
+            margin-bottom: 20px;
+        }
+
+        .leverage-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
+        .leverage-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+
+        .leverage-btn {
+            padding: 8px 12px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-primary);
+            border-radius: 6px;
+            color: var(--text-secondary);
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .leverage-btn:hover,
+        .leverage-btn.active {
+            background: var(--primary);
+            color: var(--text-primary);
+            border-color: var(--primary);
+        }
+
+        .leverage-input {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-primary);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+
+        .leverage-input:focus {
+            outline: none;
+            border-color: var(--border-focus);
+            box-shadow: 0 0 0 3px rgba(0, 212, 170, 0.1);
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-primary);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--border-focus);
+            box-shadow: 0 0 0 3px rgba(0, 212, 170, 0.1);
+        }
+
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .buy-btn {
+            background: var(--gradient-primary);
+            color: var(--text-primary);
+            border: none;
+            padding: 16px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .buy-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .sell-btn {
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF4757 100%);
+            color: var(--text-primary);
+            border: none;
+            padding: 16px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .sell-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .cancel-btn {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-primary);
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .cancel-btn:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border-color: var(--border-secondary);
+        }
+
+        .margin-info {
+            background: var(--bg-card);
+            border: 1px solid var(--border-primary);
+            border-radius: 8px;
+            padding: 16px;
+        }
+
+        .margin-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .margin-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .margin-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .margin-value {
+            font-size: 13px;
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Positions */
+        .positions {
+            background: var(--bg-secondary);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .positions-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .positions-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .positions-count {
+            background: var(--bg-card);
+            color: var(--text-secondary);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .positions-table {
+            flex: 1;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+        }
+
+        .table-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+            gap: 16px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-primary);
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .table-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+            gap: 16px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-primary);
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+
+        .table-row:hover {
+            background: var(--bg-tertiary);
+        }
+
+        .position-side.long {
+            color: var(--accent-buy);
+            font-weight: 600;
+            font-size: 12px;
+        }
+
+        .position-side.short {
+            color: var(--accent-sell);
+            font-weight: 600;
+            font-size: 12px;
+        }
+
+        .pnl.positive {
+            color: var(--accent-buy);
+            font-weight: 600;
+        }
+
+        .pnl.negative {
+            color: var(--accent-sell);
+            font-weight: 600;
+        }
+
+        .action-buttons-group {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-btn {
+            padding: 6px 12px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-primary);
+            border-radius: 6px;
+            color: var(--text-secondary);
+            font-size: 11px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .action-btn:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .action-btn.danger {
+            border-color: var(--accent-sell);
+            color: var(--accent-sell);
+        }
+
+        .action-btn.danger:hover {
+            background: var(--accent-sell);
+            color: var(--text-primary);
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .top-section,
+            .bottom-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 0 16px;
+            }
+            
+            .nav {
+                display: none;
+            }
+            
+            .table-header,
+            .table-row {
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 8px;
+            }
+            
+            .leverage-buttons {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-primary);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--border-secondary);
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <div class="logo">
+                    <div class="logo-icon">⚡</div>
+                    Ink Perp DEX
+                </div>
+                <nav class="nav">
+                    <a href="#markets" class="nav-item active">Markets</a>
+                    <a href="#portfolio" class="nav-item">Portfolio</a>
+                    <a href="#history" class="nav-item">History</a>
+                </nav>
+            </div>
+            <div class="header-right">
+                <button class="wallet-btn" id="walletBtn">Connect Wallet</button>
+            </div>
+        </header>
+
+        <!-- Main Layout -->
+        <div class="main-container">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="sidebar-section">
+                    <div class="sidebar-title">Markets</div>
+                    <div class="market-list">
+                        <div class="market-item active">
+                            <div>
+                                <div class="market-symbol">BTC/USD</div>
+                            </div>
+                            <div>
+                                <div class="market-price">$43,250.50</div>
+                                <div class="market-change positive">+2.5%</div>
+                            </div>
+                        </div>
+                        <div class="market-item">
+                            <div>
+                                <div class="market-symbol">ETH/USD</div>
+                            </div>
+                            <div>
+                                <div class="market-price">$3,150.25</div>
+                                <div class="market-change positive">+1.8%</div>
+                            </div>
+                        </div>
+                        <div class="market-item">
+                            <div>
+                                <div class="market-symbol">SOL/USD</div>
+                            </div>
+                            <div>
+                                <div class="market-price">$98.75</div>
+                                <div class="market-change negative">-0.5%</div>
+                            </div>
+                        </div>
+                        <div class="market-item">
+                            <div>
+                                <div class="market-symbol">AVAX/USD</div>
+                            </div>
+                            <div>
+                                <div class="market-price">$25.40</div>
+                                <div class="market-change positive">+3.2%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <div class="sidebar-title">Portfolio</div>
+                    <div class="balance-card">
+                        <div class="balance-item">
+                            <span class="balance-label">Total Balance</span>
+                            <span class="balance-value large">$10,000.00</span>
+                        </div>
+                        <div class="balance-item">
+                            <span class="balance-label">Margin Used</span>
+                            <span class="balance-value">$2,500.00</span>
+                        </div>
+                        <div class="balance-item">
+                            <span class="balance-label">Available</span>
+                            <span class="balance-value">$7,500.00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <div class="sidebar-title">Positions</div>
+                    <div class="market-list">
+                        <div class="market-item">
+                            <div>
+                                <div class="market-symbol">BTC Long</div>
+                            </div>
+                            <div>
+                                <div class="market-price" style="color: var(--accent-buy)">+$250.00</div>
+                            </div>
+                        </div>
+                        <div class="market-item">
+                            <div>
+                                <div class="market-symbol">ETH Short</div>
+                            </div>
+                            <div>
+                                <div class="market-price" style="color: var(--accent-sell)">-$125.00</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="main-content">
+                <!-- Top Section -->
+                <div class="top-section">
+                    <!-- Order Book -->
+                    <div class="order-book">
+                        <div class="order-book-header">
+                            <h3 class="order-book-title">Order Book</h3>
+                            <div class="order-book-market">BTC/USD</div>
+                        </div>
+                        <div class="order-book-content">
+                            <div class="order-book-header-row">
+                                <span>Size</span>
+                                <span>Price</span>
+                            </div>
+                            <div class="order-book-level ask">
+                                <span class="size">0.3</span>
+                                <span class="price">43,250.5</span>
+                            </div>
+                            <div class="order-book-level ask">
+                                <span class="size">0.7</span>
+                                <span class="price">43,250.0</span>
+                            </div>
+                            <div class="order-book-level ask">
+                                <span class="size">1.1</span>
+                                <span class="price">43,249.5</span>
+                            </div>
+                            <div class="order-book-level ask">
+                                <span class="size">0.9</span>
+                                <span class="price">43,249.0</span>
+                            </div>
+                            <div class="order-book-level ask">
+                                <span class="size">0.5</span>
+                                <span class="price">43,248.5</span>
+                            </div>
+                            <div class="spread">Spread: $1.00</div>
+                            <div class="order-book-level bid">
+                                <span class="size">0.5</span>
+                                <span class="price">43,247.5</span>
+                            </div>
+                            <div class="order-book-level bid">
+                                <span class="size">0.8</span>
+                                <span class="price">43,247.0</span>
+                            </div>
+                            <div class="order-book-level bid">
+                                <span class="size">1.2</span>
+                                <span class="price">43,246.5</span>
+                            </div>
+                            <div class="order-book-level bid">
+                                <span class="size">0.6</span>
+                                <span class="price">43,246.0</span>
+                            </div>
+                            <div class="order-book-level bid">
+                                <span class="size">0.4</span>
+                                <span class="price">43,245.5</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chart -->
+                    <div class="chart-container">
+                        <div class="chart-header">
+                            <h3 class="chart-title">Price Chart</h3>
+                            <div class="chart-controls">
+                                <button class="chart-btn active">1H</button>
+                                <button class="chart-btn">4H</button>
+                                <button class="chart-btn">1D</button>
+                                <button class="chart-btn">1W</button>
+                            </div>
+                        </div>
+                        <div class="chart-placeholder">
+                            📈 TradingView Chart Integration
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Section -->
+                <div class="bottom-section">
+                    <!-- Order Panel -->
+                    <div class="order-panel">
+                        <div class="order-panel-header">
+                            <h3 class="order-panel-title">Place Order</h3>
+                        </div>
+
+                        <div class="order-tabs">
+                            <button class="order-tab active">Long</button>
+                            <button class="order-tab">Short</button>
+                        </div>
+
+                        <div class="order-type-buttons">
+                            <button class="order-type-btn active">Market</button>
+                            <button class="order-type-btn">Limit</button>
+                            <button class="order-type-btn">Stop</button>
+                        </div>
+
+                        <div class="leverage-section">
+                            <label class="leverage-label">Leverage</label>
+                            <div class="leverage-buttons">
+                                <button class="leverage-btn">1x</button>
+                                <button class="leverage-btn">5x</button>
+                                <button class="leverage-btn active">10x</button>
+                                <button class="leverage-btn">25x</button>
+                                <button class="leverage-btn">50x</button>
+                                <button class="leverage-btn">100x</button>
+                            </div>
+                            <input type="number" class="leverage-input" value="10" min="1" max="100">
+                        </div>
+
+                        <div class="input-group">
+                            <label class="input-label">Size</label>
+                            <input type="text" class="input-field" placeholder="0.00" value="0.5">
+                        </div>
+
+                        <div class="input-group">
+                            <label class="input-label">Price</label>
+                            <input type="text" class="input-field" placeholder="0.00" value="43,250.50">
+                        </div>
+
+                        <div class="action-buttons">
+                            <button class="buy-btn">Buy Long</button>
+                            <button class="sell-btn">Sell Short</button>
+                            <button class="cancel-btn">Cancel All</button>
+                        </div>
+
+                        <div class="margin-info">
+                            <div class="margin-item">
+                                <span class="margin-label">Available Margin</span>
+                                <span class="margin-value">$7,500.00</span>
+                            </div>
+                            <div class="margin-item">
+                                <span class="margin-label">Required Margin</span>
+                                <span class="margin-value">$2,162.50</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Positions -->
+                    <div class="positions">
+                        <div class="positions-header">
+                            <h3 class="positions-title">Open Positions</h3>
+                            <div class="positions-count">2</div>
+                        </div>
+
+                        <div class="positions-table">
+                            <div class="table-header">
+                                <span>Market</span>
+                                <span>Side</span>
+                                <span>Size</span>
+                                <span>Entry</span>
+                                <span>Mark</span>
+                                <span>P&L</span>
+                                <span>Margin</span>
+                                <span>Actions</span>
+                            </div>
+                            <div class="table-row">
+                                <span>BTC/USD</span>
+                                <span class="position-side long">LONG</span>
+                                <span>0.5</span>
+                                <span>42,000.00</span>
+                                <span>43,250.50</span>
+                                <span class="pnl positive">+$625.00</span>
+                                <span>$2,100.00</span>
+                                <div class="action-buttons-group">
+                                    <button class="action-btn">Modify</button>
+                                    <button class="action-btn danger">Close</button>
+                                </div>
+                            </div>
+                            <div class="table-row">
+                                <span>ETH/USD</span>
+                                <span class="position-side short">SHORT</span>
+                                <span>1.2</span>
+                                <span>3,200.00</span>
+                                <span>3,150.25</span>
+                                <span class="pnl positive">+$60.00</span>
+                                <span>$1,280.00</span>
+                                <div class="action-buttons-group">
+                                    <button class="action-btn">Modify</button>
+                                    <button class="action-btn danger">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Enhanced interactivity for the Extended Exchange style
+        document.addEventListener('DOMContentLoaded', function() {
+            // Order tab switching
+            const orderTabs = document.querySelectorAll('.order-tab');
+            orderTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    orderTabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // Order type buttons
+            const orderTypeBtns = document.querySelectorAll('.order-type-btn');
+            orderTypeBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    orderTypeBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // Leverage buttons
+            const leverageBtns = document.querySelectorAll('.leverage-btn');
+            leverageBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    leverageBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    document.querySelector('.leverage-input').value = this.textContent.replace('x', '');
+                });
+            });
+
+            // Market selection
+            const marketItems = document.querySelectorAll('.market-item');
+            marketItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    marketItems.forEach(m => m.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // Chart timeframes
+            const chartBtns = document.querySelectorAll('.chart-btn');
+            chartBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    chartBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // Connect wallet button
+            const walletBtn = document.getElementById('walletBtn');
+            walletBtn.addEventListener('click', function() {
+                this.textContent = '0x1234...5678';
+                this.classList.add('connected');
+            });
+
+            // Order book level clicks
+            const orderBookLevels = document.querySelectorAll('.order-book-level');
+            orderBookLevels.forEach(level => {
+                level.addEventListener('click', function() {
+                    const price = this.querySelector('.price').textContent;
+                    document.querySelector('.input-field[placeholder="0.00"]').value = price;
+                });
+            });
+
+            // Smooth animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Observe elements for animation
+            document.querySelectorAll('.market-item, .table-row, .order-book-level').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(10px)';
+                el.style.transition = 'all 0.3s ease';
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
